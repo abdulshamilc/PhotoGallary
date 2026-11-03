@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Admin Credentials Collection
+    // Allows reading credentials for administrator authentication
+    match /admin/{document=**} {
+      allow read, write: if true;
+    }
+
+    // 2. Gallery Access Settings (userAccess/settings and userAccess/publicStatus)
+    // Allows real-time mode lookup and access code verification
+    match /userAccess/{document=**} {
+      allow read, write: if true;
+    }
+    
+    // 3. Default: deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
